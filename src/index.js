@@ -277,10 +277,12 @@ class RichMarkdownEditor extends React.Component<Props, State> {
             spellCheck={!readOnly}
             uploadImage={uploadImage}
           />
-          <ClickablePadding
-            onClick={!readOnly ? this.focusAtEnd : undefined}
-            grow
-          />
+          {!readOnly && (
+            <ClickablePadding
+              onClick={!readOnly ? this.focusAtEnd : undefined}
+              grow
+            />
+          )}
         </Flex>
       </ThemeProvider>
     );
