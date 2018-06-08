@@ -40,13 +40,13 @@ type Props = {
   onSearchLink?: (term: string) => Promise<SearchResult[]>,
   onClickLink?: (href: string) => *,
   className?: string,
-  style?: Object,
+  style?: Object
 };
 
 type State = {
   editorValue: Value,
   editorLoaded: boolean,
-  schema: Schema,
+  schema: Schema
 };
 
 class RichMarkdownEditor extends React.Component<Props, State> {
@@ -57,7 +57,7 @@ class RichMarkdownEditor extends React.Component<Props, State> {
     titlePlaceholder: "Your title",
     bodyPlaceholder: "Write something nice…",
     onImageUploadStart: () => {},
-    onImageUploadStop: () => {},
+    onImageUploadStop: () => {}
   };
 
   editor: Editor;
@@ -68,7 +68,7 @@ class RichMarkdownEditor extends React.Component<Props, State> {
     super(props);
 
     this.renderNode = createRenderNode({
-      onInsertImage: this.insertImageFile,
+      onInsertImage: this.insertImageFile
     });
     this.plugins = createPlugins();
     if (props.plugins) {
@@ -79,8 +79,8 @@ class RichMarkdownEditor extends React.Component<Props, State> {
       editorValue: Markdown.deserialize(props.defaultValue),
       schema: {
         ...defaultSchema({ title: props.title }),
-        ...this.props.schema,
-      },
+        ...this.props.schema
+      }
     };
   }
 
@@ -98,8 +98,8 @@ class RichMarkdownEditor extends React.Component<Props, State> {
       this.setState({
         schema: {
           ...defaultSchema({ title: nextProps.title }),
-          ...nextProps.schema,
-        },
+          ...nextProps.schema
+        }
       });
     }
   }
@@ -225,80 +225,67 @@ class RichMarkdownEditor extends React.Component<Props, State> {
       onImageUploadStart,
       onImageUploadStop,
       className,
-      style,
+      style
     } = this.props;
 
     return (
-      <Flex
-        style={style}
-        className={className}
-        onDrop={this.handleDrop}
-        onDragOver={this.cancelEvent}
-        onDragEnter={this.cancelEvent}
-        align="flex-start"
-        justify="center"
-        auto
-      >
-        <ThemeProvider theme={theme}>
-          <React.Fragment>
-            <Header onClick={this.focusAtStart} readOnly={readOnly} />
-            {readOnly &&
-              this.state.editorLoaded &&
-              this.editor && <Contents editor={this.editor} />}
-            {!readOnly &&
-              this.editor && (
-                <Toolbar value={this.state.editorValue} editor={this.editor} />
-              )}
-            {!readOnly &&
-              this.editor && (
-                <BlockInsert
-                  editor={this.editor}
-                  onInsertImage={this.insertImageFile}
-                />
-              )}
-            <StyledEditor
-              innerRef={this.setEditorRef}
-              title={title}
-              titlePlaceholder={titlePlaceholder}
-              bodyPlaceholder={bodyPlaceholder}
-              plugins={this.plugins}
-              pretitle={pretitle}
-              value={this.state.editorValue}
-              renderNode={this.renderNode}
-              renderMark={renderMark}
-              schema={this.state.schema}
-              onKeyDown={this.onKeyDown}
-              onChange={this.onChange}
-              onSave={onSave}
-              onSearchLink={onSearchLink}
-              onClickLink={onClickLink}
-              onImageUploadStart={onImageUploadStart}
-              onImageUploadStop={onImageUploadStop}
-              readOnly={readOnly}
-              spellCheck={!readOnly}
-              uploadImage={uploadImage}
-            />
-            <ClickablePadding
-              onClick={!readOnly ? this.focusAtEnd : undefined}
-              grow
-            />
-          </React.Fragment>
-        </ThemeProvider>
-      </Flex>
+      <ThemeProvider theme={theme}>
+        <Flex
+          style={style}
+          className={className}
+          onDrop={this.handleDrop}
+          onDragOver={this.cancelEvent}
+          onDragEnter={this.cancelEvent}
+          align="flex-start"
+          justify="center"
+          auto
+          column
+        >
+          {readOnly &&
+            this.state.editorLoaded &&
+            this.editor && <Contents editor={this.editor} />}
+          {!readOnly &&
+            this.editor && (
+              <Toolbar value={this.state.editorValue} editor={this.editor} />
+            )}
+          {!readOnly &&
+            this.editor && (
+              <BlockInsert
+                editor={this.editor}
+                onInsertImage={this.insertImageFile}
+              />
+            )}
+          <StyledEditor
+            innerRef={this.setEditorRef}
+            title={title}
+            titlePlaceholder={titlePlaceholder}
+            bodyPlaceholder={bodyPlaceholder}
+            plugins={this.plugins}
+            pretitle={pretitle}
+            value={this.state.editorValue}
+            renderNode={this.renderNode}
+            renderMark={renderMark}
+            schema={this.state.schema}
+            onKeyDown={this.onKeyDown}
+            onChange={this.onChange}
+            onSave={onSave}
+            onSearchLink={onSearchLink}
+            onClickLink={onClickLink}
+            onImageUploadStart={onImageUploadStart}
+            onImageUploadStop={onImageUploadStop}
+            readOnly={readOnly}
+            spellCheck={!readOnly}
+            uploadImage={uploadImage}
+          />
+          <ClickablePadding
+            onClick={!readOnly ? this.focusAtEnd : undefined}
+            grow
+          />
+        </Flex>
+      </ThemeProvider>
     );
   };
 }
-
-const Header = styled(Flex)`
-  height: 60px;
-  flex-shrink: 0;
-  align-items: flex-end;
-  ${props => !props.readOnly && "cursor: text;"};
-
-  @media print {
-    display: none;
-  }
-`;
 
 const StyledEditor = styled(Editor)`
   font-family: ${props => props.theme.fontFamily};

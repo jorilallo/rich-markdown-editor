@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 type Props = {
   onClick?: ?Function,
-  grow?: boolean,
+  grow?: boolean
 };
 
 const ClickablePadding = (props: Props) => {
@@ -12,8 +12,7 @@ const ClickablePadding = (props: Props) => {
 };
 
 const Container = styled.div`
-  min-height: 50vh;
-  padding-top: 50px;
+  width: 100%;
   cursor: ${({ onClick }) => (onClick ? "text" : "default")};
 
   ${({ grow }) => grow && `flex-grow: 1;`};
