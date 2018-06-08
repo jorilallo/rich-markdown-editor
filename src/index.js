@@ -40,13 +40,13 @@ type Props = {
   onSearchLink?: (term: string) => Promise<SearchResult[]>,
   onClickLink?: (href: string) => *,
   className?: string,
-  style?: Object
+  style?: Object,
 };
 
 type State = {
   editorValue: Value,
   editorLoaded: boolean,
-  schema: Schema
+  schema: Schema,
 };
 
 class RichMarkdownEditor extends React.Component<Props, State> {
@@ -57,7 +57,7 @@ class RichMarkdownEditor extends React.Component<Props, State> {
     titlePlaceholder: "Your title",
     bodyPlaceholder: "Write something nice…",
     onImageUploadStart: () => {},
-    onImageUploadStop: () => {}
+    onImageUploadStop: () => {},
   };
 
   editor: Editor;
@@ -68,7 +68,7 @@ class RichMarkdownEditor extends React.Component<Props, State> {
     super(props);
 
     this.renderNode = createRenderNode({
-      onInsertImage: this.insertImageFile
+      onInsertImage: this.insertImageFile,
     });
     this.plugins = createPlugins();
     if (props.plugins) {
@@ -79,8 +79,8 @@ class RichMarkdownEditor extends React.Component<Props, State> {
       editorValue: Markdown.deserialize(props.defaultValue),
       schema: {
         ...defaultSchema({ title: props.title }),
-        ...this.props.schema
-      }
+        ...this.props.schema,
+      },
     };
   }
 
@@ -98,8 +98,8 @@ class RichMarkdownEditor extends React.Component<Props, State> {
       this.setState({
         schema: {
           ...defaultSchema({ title: nextProps.title }),
-          ...nextProps.schema
-        }
+          ...nextProps.schema,
+        },
       });
     }
   }
@@ -225,7 +225,7 @@ class RichMarkdownEditor extends React.Component<Props, State> {
       onImageUploadStart,
       onImageUploadStop,
       className,
-      style
+      style,
     } = this.props;
 
     return (
@@ -236,10 +236,8 @@ class RichMarkdownEditor extends React.Component<Props, State> {
           onDrop={this.handleDrop}
           onDragOver={this.cancelEvent}
           onDragEnter={this.cancelEvent}
-          align="flex-start"
-          justify="center"
-          auto
           column
+          auto
         >
           {readOnly &&
             this.state.editorLoaded &&
@@ -248,7 +246,8 @@ class RichMarkdownEditor extends React.Component<Props, State> {
             this.editor && (
               <Toolbar value={this.state.editorValue} editor={this.editor} />
             )}
-          {!readOnly &&
+          {false &&
+            !readOnly &&
             this.editor && (
               <BlockInsert
                 editor={this.editor}
